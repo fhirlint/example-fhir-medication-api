@@ -1,14 +1,16 @@
-name: Tests
+name: Security
 
 on:
   push:
     branches: ["**"]
   pull_request:
     branches: ["**"]
+  schedule:
+    - cron: '0 7 * * 1'  # Weekly, Monday 07:00 UTC
 
 jobs:
-  phpunit:
-    name: PHPUnit
+  composer-audit:
+    name: composer audit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,8 +23,5 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
 
-      - name: Run tests
-        run: php bin/phpunit
-
-      - name: Run PHPStan
-        run: php vendor/bin/phpstan analyse --no-progress
+      - name: Run composer audit
+        run: composer audit
