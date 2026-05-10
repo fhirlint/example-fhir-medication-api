@@ -50,4 +50,5 @@ jobs:
           curl -sf http://localhost:8000/fhir/Medication/metformin-500   -o /tmp/fhir-responses/medication-metformin-500.json
           curl -sf http://localhost:8000/fhir/MedicationRequest/request-001 -o /tmp/fhir-responses/medication-request-001.json
           curl -sf http://localhost:8000/fhir/MedicationRequest/request-002 -o /tmp/fhir-responses/medication-request-002.json
+          curl -sf http://localhost:8000/fhir/MedicationRequest/incomplete  -o /tmp/fhir-responses/medication-request-incomplete.json
           fhirlint validate /tmp/fhir-responses/ --fail-on error --severity warning

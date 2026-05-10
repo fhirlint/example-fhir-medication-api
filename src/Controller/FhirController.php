@@ -222,6 +222,20 @@ class FhirController extends AbstractController
         return $this->fhirJson($this->medicationRequests[$id]);
     }
 
+    #[Route('/MedicationRequest/incomplete', name: 'medication_request_incomplete', methods: ['GET'])]
+    public function medicationRequestIncomplete(): JsonResponse
+    {
+        // Intentionally incomplete: missing required fields 'intent' and 'subject'
+        return $this->fhirJson([
+            'resourceType' => 'MedicationRequest',
+            'id' => 'incomplete-001',
+            'status' => 'active',
+            'medicationReference' => [
+                'reference' => 'Medication/ibuprofen-400',
+            ],
+        ]);
+    }
+
     /** @param array<mixed> $data */
     private function fhirJson(array $data, int $status = Response::HTTP_OK): JsonResponse
     {
