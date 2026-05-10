@@ -19,6 +19,15 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
       - name: Install fhirlint
         env:
           GH_TOKEN: ${{ github.token }}
@@ -30,3 +39,15 @@ jobs:
 
       - name: Validate FHIR fixtures
         run: fhirlint validate tests/fixtures/ --fail-on error --severity warning
+
+      - name: Start Symfony server
+        run: php -S localhost:8000 -t public/ &
+
+      - name: Validate live API responses
+        run: |
+          mkdir -p /tmp/fhir-responses
+          curl -sf http://localhost:8000/fhir/Medication/ibuprofen-400   -o /tmp/fhir-responses/medication-ibuprofen-400.json
+          curl -sf http://localhost:8000/fhir/Medication/metformin-500   -o /tmp/fhir-responses/medication-metformin-500.json
+          curl -sf http://localhost:8000/fhir/MedicationRequest/request-001 -o /tmp/fhir-responses/medication-request-001.json
+          curl -sf http://localhost:8000/fhir/MedicationRequest/request-002 -o /tmp/fhir-responses/medication-request-002.json
+          fhirlint validate /tmp/fhir-responses/ --fail-on error --severity warning
