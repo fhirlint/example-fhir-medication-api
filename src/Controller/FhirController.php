@@ -29,7 +29,6 @@ class FhirController extends AbstractController
                     'coding' => [[
                         'system' => 'http://www.nlm.nih.gov/research/umls/rxnorm',
                         'code' => '310965',
-                        'display' => 'Ibuprofen 400 MG Oral Tablet',
                     ]],
                     'text' => 'Ibuprofen 400mg',
                 ],

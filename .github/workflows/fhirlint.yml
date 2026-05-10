@@ -29,4 +29,4 @@ jobs:
           rm fhirlint_*_linux_amd64.tar.gz
 
       - name: Validate FHIR fixtures
-        run: fhirlint validate tests/fixtures/ --fail-on error
+        run: fhirlint validate tests/fixtures/ --fail-on error --severity warning
