@@ -1,0 +1,28 @@
+name: FHIR Validation
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  validate:
+    name: fhirlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install fhirlint
+        run: |
+          curl -sL https://github.com/fhirlint/fhirlint/releases/latest/download/fhirlint_linux_amd64.tar.gz | tar xz
+          sudo mv fhirlint /usr/local/bin/
+
+      - name: Validate FHIR fixtures
+        run: fhirlint validate tests/fixtures/ --fail-on error

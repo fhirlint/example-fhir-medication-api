@@ -1,0 +1,24 @@
+{
+  "resourceType": "Medication",
+  "id": "ibuprofen-400",
+  "status": "active",
+  "code": {
+    "coding": [
+      {
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "310965",
+        "display": "Ibuprofen 400 MG Oral Tablet"
+      }
+    ],
+    "text": "Ibuprofen 400mg"
+  },
+  "form": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "421026006",
+        "display": "Oral tablet"
+      }
+    ]
+  }
+}
