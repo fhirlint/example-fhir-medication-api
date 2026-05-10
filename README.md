@@ -66,6 +66,12 @@ curl http://localhost:8000/fhir/Medication/ibuprofen-400
 
 ## FHIR validation in CI
 
+When a fixture contains an invalid FHIR resource, fhirlint fails the build with a clear error:
+
+![fhirlint failing pipeline](docs/fhirlint-pipeline-failure.png)
+
+
+
 The `fhirlint` workflow validates all files in `tests/fixtures/` on every push:
 
 ```yaml
