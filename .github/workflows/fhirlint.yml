@@ -20,9 +20,13 @@ jobs:
           java-version: '21'
 
       - name: Install fhirlint
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          curl -sL https://github.com/fhirlint/fhirlint/releases/latest/download/fhirlint_linux_amd64.tar.gz | tar xz
+          gh release download --repo fhirlint/fhirlint --pattern "*linux_amd64.tar.gz"
+          tar xzf fhirlint_*_linux_amd64.tar.gz
           sudo mv fhirlint /usr/local/bin/
+          rm fhirlint_*_linux_amd64.tar.gz
 
       - name: Validate FHIR fixtures
         run: fhirlint validate tests/fixtures/ --fail-on error
