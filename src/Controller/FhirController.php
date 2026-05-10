@@ -108,6 +108,15 @@ class FhirController extends AbstractController
                     ]],
                 ]],
             ],
+            // Intentionally incomplete: missing required 'intent' and 'subject'
+            'incomplete-001' => [
+                'resourceType' => 'MedicationRequest',
+                'id' => 'incomplete-001',
+                'status' => 'active',
+                'medicationReference' => [
+                    'reference' => 'Medication/ibuprofen-400',
+                ],
+            ],
             'request-002' => [
                 'resourceType' => 'MedicationRequest',
                 'id' => 'request-002',
