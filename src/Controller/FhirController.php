@@ -18,6 +18,9 @@ class FhirController extends AbstractController
     /** @var array<string, array<mixed>> */
     private array $medicationRequests = [];
 
+    /** @var array<string, array<mixed>> */
+    private array $patients = [];
+
     public function __construct()
     {
         $this->medications = [
@@ -154,6 +157,29 @@ class FhirController extends AbstractController
                 ]],
             ],
         ];
+
+        $this->patients = [
+            'patient-001' => [
+                'resourceType' => 'Patient',
+                'id' => 'patient-001',
+                'name' => [[
+                    'family' => 'Smith',
+                    'given' => ['John'],
+                ]],
+                'gender' => 'male',
+                'birthDate' => '1980-01-15',
+            ],
+            'patient-002' => [
+                'resourceType' => 'Patient',
+                'id' => 'patient-002',
+                'name' => [[
+                    'family' => 'Müller',
+                    'given' => ['Anna'],
+                ]],
+                'gender' => 'female',
+                'birthDate' => '1975-06-20',
+            ],
+        ];
     }
 
     #[Route('/Medication', name: 'medication_list', methods: ['GET'])]
@@ -220,6 +246,39 @@ class FhirController extends AbstractController
         }
 
         return $this->fhirJson($this->medicationRequests[$id]);
+    }
+
+    #[Route('/Patient', name: 'patient_list', methods: ['GET'])]
+    public function patientList(): JsonResponse
+    {
+        $entries = array_map(
+            fn ($resource) => ['resource' => $resource],
+            array_values($this->patients)
+        );
+
+        return $this->fhirJson([
+            'resourceType' => 'Bundle',
+            'type' => 'searchset',
+            'total' => count($entries),
+            'entry' => $entries,
+        ]);
+    }
+
+    #[Route('/Patient/{id}', name: 'patient_read', methods: ['GET'])]
+    public function patientRead(string $id): JsonResponse
+    {
+        if (!isset($this->patients[$id])) {
+            return $this->fhirJson([
+                'resourceType' => 'OperationOutcome',
+                'issue' => [[
+                    'severity' => 'error',
+                    'code' => 'not-found',
+                    'diagnostics' => "Patient/{$id} not found",
+                ]],
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->fhirJson($this->patients[$id]);
     }
 
     /** @param array<mixed> $data */

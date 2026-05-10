@@ -45,6 +45,8 @@ All responses use `Content-Type: application/fhir+json`.
 | `GET` | `/fhir/Medication/{id}` | Read a single Medication resource |
 | `GET` | `/fhir/MedicationRequest` | List all medication requests (FHIR Bundle) |
 | `GET` | `/fhir/MedicationRequest/{id}` | Read a single MedicationRequest resource |
+| `GET` | `/fhir/Patient` | List all patients (FHIR Bundle) |
+| `GET` | `/fhir/Patient/{id}` | Read a single Patient resource |
 
 ### Example
 
@@ -108,7 +110,9 @@ tests/
     ├── medication-ibuprofen-400.json    # FHIR Medication resource
     ├── medication-metformin-500.json    # FHIR Medication resource
     ├── medication-request-001.json      # FHIR MedicationRequest with dosage
-    └── medication-request-002.json      # FHIR MedicationRequest with dosage
+    ├── medication-request-002.json      # FHIR MedicationRequest with dosage
+    ├── patient-001.json                 # FHIR Patient (referenced by request-001)
+    └── patient-002.json                 # FHIR Patient (referenced by request-002)
 src/
 └── Controller/
     └── FhirController.php               # All FHIR endpoints
@@ -119,6 +123,7 @@ src/
 - [fhirlint](https://github.com/fhirlint/fhirlint) — the validator CLI used in this example
 - [HL7 FHIR R4 Medication](https://hl7.org/fhir/R4/medication.html)
 - [HL7 FHIR R4 MedicationRequest](https://hl7.org/fhir/R4/medicationrequest.html)
+- [HL7 FHIR R4 Patient](https://hl7.org/fhir/R4/patient.html)
 
 ---
 
