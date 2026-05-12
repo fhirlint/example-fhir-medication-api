@@ -1,0 +1,18 @@
+fhir-version: 4.0.1
+severity: warning
+fail-on: error
+
+suppress:
+  # Best practice: resources should have narrative (not required in APIs)
+  - constraint: dom-6
+
+  # All warnings below are expected when running with --no-terminology-server.
+  # They do not indicate invalid FHIR — only that code/value-set bindings
+  # could not be verified without an external terminology server.
+  - messageId: TERMINOLOGY_TX_WARNING
+  - messageId: Error_validating_code_running_without_terminology_services
+  - messageId: UNKNOWN_CODESYSTEM
+  - messageId: UNKNOWN_CODESYSTEM_VERSION
+  - messageId: UNKNOWN_CODESYSTEM_VERSION_NONE
+  - messageId: Terminology_TX_ValueSet_NotFound
+  - messageId: TYPE_SPECIFIC_CHECKS_DT_QTY_UCUM_ANNOTATIONS_NOT_IN_UNIT
