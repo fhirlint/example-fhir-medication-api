@@ -7,8 +7,28 @@ on:
     branches: ["**"]
 
 jobs:
-  validate:
-    name: fhirlint
+  validate-fixtures:
+    name: Validate FHIR fixtures (Docker)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate FHIR fixtures
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/tests/fixtures:/work \
+            ghcr.io/fhirlint/fhirlint:latest \
+            validate /work --fail-on error --severity warning
+
+  validate-live:
+    name: Validate live API responses
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -36,9 +56,6 @@ jobs:
           tar xzf fhirlint_*_linux_amd64.tar.gz
           sudo mv fhirlint /usr/local/bin/
           rm fhirlint_*_linux_amd64.tar.gz
-
-      - name: Validate FHIR fixtures
-        run: fhirlint validate tests/fixtures/ --fail-on error --severity warning
 
       - name: Start Symfony server
         run: php -S localhost:8000 -t public/ &
