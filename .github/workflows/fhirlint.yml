@@ -60,12 +60,10 @@ jobs:
           fhirlint validate tests/fixtures/ \
             --ig kbv.basis#1.5.0 \
             --format terminal \
-            --format junit --output fhir-results.xml \
-            --format sarif --output fhir-results.sarif \
+            --format junit \
+            --format sarif \
+            --output fhir-results \
             --fail-on error --severity warning --no-terminology-server
-
-      - name: Debug JUnit XML
-        run: cat fhir-results.xml
 
       - name: Publish JUnit results
         uses: mikepenz/action-junit-report@v6
