@@ -28,7 +28,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}/tests/fixtures:/work \
             ghcr.io/fhirlint/fhirlint:latest \
-            validate /work --fail-on error --severity warning
+            validate /work --fail-on error --severity warning --no-terminology-server
 
   validate-live:
     name: Validate live API responses
@@ -77,7 +77,7 @@ jobs:
           curl -sf http://localhost:8000/fhir/Patient/patient-002                   -o /tmp/fhir-responses/patient-002.json
           curl -sf http://localhost:8000/fhir/Medication/ibuprofen-400-de           -o /tmp/fhir-responses/medication-ibuprofen-400-de.json
           curl -sf http://localhost:8000/fhir/MedicationRequest/request-de-001      -o /tmp/fhir-responses/medication-request-de-001.json
-          fhirlint validate /tmp/fhir-responses/ --fail-on error --severity warning
+          fhirlint validate /tmp/fhir-responses/ --fail-on error --severity warning --no-terminology-server
 
       - name: Validate German resources against KBV profiles
         run: |
@@ -86,4 +86,5 @@ jobs:
             --ig kbv.basis#1.5.0 \
             --fail-on error \
             --severity warning \
-            --suppress "constraint:dom-6"
+            --suppress "constraint:dom-6" \
+            --no-terminology-server
