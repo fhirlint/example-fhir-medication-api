@@ -58,6 +58,7 @@ jobs:
       - name: Validate fixtures (terminal + JUnit + SARIF)
         run: |
           fhirlint validate tests/fixtures/ \
+            --ig kbv.basis#1.5.0 \
             --format terminal \
             --format junit --output fhir-results.xml \
             --format sarif --output fhir-results.sarif \
