@@ -64,6 +64,9 @@ jobs:
             --format sarif --output fhir-results.sarif \
             --fail-on error --severity warning --no-terminology-server
 
+      - name: Debug JUnit XML
+        run: cat fhir-results.xml
+
       - name: Publish JUnit results
         uses: mikepenz/action-junit-report@v6
         if: always()
