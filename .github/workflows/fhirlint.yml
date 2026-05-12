@@ -20,6 +20,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Show fhirlint version
+        run: docker run --rm ghcr.io/fhirlint/fhirlint:latest version
+
       - name: Validate FHIR fixtures
         run: |
           docker run --rm \
@@ -59,6 +62,9 @@ jobs:
 
       - name: Start Symfony server
         run: php -S localhost:8000 -t public/ &
+
+      - name: Show fhirlint version
+        run: fhirlint version
 
       - name: Validate live API responses
         run: |
