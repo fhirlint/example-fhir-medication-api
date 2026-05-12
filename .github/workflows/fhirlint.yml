@@ -13,17 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Validate FHIR fixtures
-        uses: docker://ghcr.io/fhirlint/fhirlint:latest
-        with:
-          args: validate /github/workspace/tests/fixtures/ --fail-on error --severity warning
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/tests/fixtures:/work \
+            ghcr.io/fhirlint/fhirlint:latest \
+            validate /work --fail-on error --severity warning
 
   validate-live:
     name: Validate live API responses
