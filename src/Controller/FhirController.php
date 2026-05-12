@@ -59,6 +59,7 @@ class FhirController extends AbstractController
                         ],
                         [
                             'system' => 'http://fhir.de/CodeSystem/bfarm/atc',
+                            'version' => '2024',
                             'code' => 'M01AE01',
                             'display' => 'Ibuprofen',
                         ],
@@ -68,6 +69,7 @@ class FhirController extends AbstractController
                 'form' => [
                     'coding' => [[
                         'system' => 'https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM',
+                        'version' => '1.07',
                         'code' => 'FTA',
                         'display' => 'Filmtablette',
                     ]],
