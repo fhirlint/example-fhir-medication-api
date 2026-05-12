@@ -43,6 +43,47 @@ class FhirController extends AbstractController
                     ]],
                 ],
             ],
+            'ibuprofen-400-de' => [
+                'resourceType' => 'Medication',
+                'id' => 'ibuprofen-400-de',
+                'status' => 'active',
+                'code' => [
+                    'coding' => [
+                        [
+                            'system' => 'http://fhir.de/CodeSystem/ifa/pzn',
+                            'code' => '00123456',
+                            'display' => 'Ibuprofen 400mg Filmtabletten',
+                        ],
+                        [
+                            'system' => 'http://fhir.de/CodeSystem/bfarm/atc',
+                            'code' => 'M01AE01',
+                            'display' => 'Ibuprofen',
+                        ],
+                    ],
+                    'text' => 'Ibuprofen 400mg Filmtabletten',
+                ],
+                'form' => [
+                    'coding' => [[
+                        'system' => 'https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM',
+                        'code' => 'FTA',
+                        'display' => 'Filmtablette',
+                    ]],
+                ],
+                'amount' => [
+                    'numerator' => [
+                        'value' => 20,
+                        'unit' => 'Stück',
+                        'system' => 'http://unitsofmeasure.org',
+                        'code' => '{tbl}',
+                    ],
+                    'denominator' => [
+                        'value' => 1,
+                        'unit' => 'Packung',
+                        'system' => 'http://unitsofmeasure.org',
+                        'code' => '{Package}',
+                    ],
+                ],
+            ],
             'metformin-500' => [
                 'resourceType' => 'Medication',
                 'id' => 'metformin-500',
@@ -110,6 +151,59 @@ class FhirController extends AbstractController
                         ],
                     ]],
                 ]],
+            ],
+            'request-de-001' => [
+                'resourceType' => 'MedicationRequest',
+                'id' => 'request-de-001',
+                'status' => 'active',
+                'intent' => 'order',
+                'medicationReference' => [
+                    'reference' => 'Medication/ibuprofen-400-de',
+                    'display' => 'Ibuprofen 400mg Filmtabletten',
+                ],
+                'subject' => [
+                    'reference' => 'Patient/patient-001',
+                ],
+                'dosageInstruction' => [[
+                    'text' => '1 Tablette bis zu 3-mal täglich bei Schmerzen',
+                    'timing' => [
+                        'repeat' => [
+                            'frequency' => 3,
+                            'period' => 1,
+                            'periodUnit' => 'd',
+                        ],
+                    ],
+                    'route' => [
+                        'coding' => [[
+                            'system' => 'http://snomed.info/sct',
+                            'code' => '26643006',
+                            'display' => 'Oral route',
+                        ]],
+                    ],
+                    'doseAndRate' => [[
+                        'type' => [
+                            'coding' => [[
+                                'system' => 'http://terminology.hl7.org/CodeSystem/dose-rate-type',
+                                'code' => 'ordered',
+                                'display' => 'Ordered',
+                            ]],
+                        ],
+                        'doseQuantity' => [
+                            'value' => 400,
+                            'unit' => 'mg',
+                            'system' => 'http://unitsofmeasure.org',
+                            'code' => 'mg',
+                        ],
+                    ]],
+                ]],
+                'dispenseRequest' => [
+                    'quantity' => [
+                        'value' => 1,
+                        'unit' => 'Packung',
+                        'system' => 'http://unitsofmeasure.org',
+                        'code' => '{Package}',
+                    ],
+                ],
             ],
             'request-002' => [
                 'resourceType' => 'MedicationRequest',
