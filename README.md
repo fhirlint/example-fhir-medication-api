@@ -48,6 +48,21 @@ All responses use `Content-Type: application/fhir+json`.
 | `GET` | `/fhir/Patient` | List all patients (FHIR Bundle) |
 | `GET` | `/fhir/Patient/{id}` | Read a single Patient resource |
 
+### German coding systems
+
+The API includes resources that use German-specific coding systems, useful as a reference for developers building FHIR APIs in the German healthcare context:
+
+| System | URI | Used for |
+|--------|-----|----------|
+| PZN (Pharmazentralnummer) | `http://fhir.de/CodeSystem/ifa/pzn` | Drug identification |
+| ATC (Anatomisch-Therapeutisch-Chemisch) | `http://fhir.de/CodeSystem/bfarm/atc` | Drug classification |
+| KBV Darreichungsform | `https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM` | Dosage form (e.g. `FTA` = Filmtablette) |
+
+```bash
+curl http://localhost:8000/fhir/Medication/ibuprofen-400-de
+curl http://localhost:8000/fhir/MedicationRequest/request-de-001
+```
+
 ### Example
 
 ```bash
