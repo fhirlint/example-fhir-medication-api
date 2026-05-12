@@ -46,6 +46,9 @@ class FhirController extends AbstractController
             'ibuprofen-400-de' => [
                 'resourceType' => 'Medication',
                 'id' => 'ibuprofen-400-de',
+                'meta' => [
+                    'profile' => ['https://fhir.kbv.de/StructureDefinition/KBV_PR_Base_Medication|1.5.0'],
+                ],
                 'status' => 'active',
                 'code' => [
                     'coding' => [

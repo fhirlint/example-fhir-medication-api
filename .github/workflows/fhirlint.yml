@@ -72,3 +72,12 @@ jobs:
           curl -sf http://localhost:8000/fhir/Medication/ibuprofen-400-de           -o /tmp/fhir-responses/medication-ibuprofen-400-de.json
           curl -sf http://localhost:8000/fhir/MedicationRequest/request-de-001      -o /tmp/fhir-responses/medication-request-de-001.json
           fhirlint validate /tmp/fhir-responses/ --fail-on error --severity warning
+
+      - name: Validate German resources against KBV profiles
+        run: |
+          fhirlint validate \
+            tests/fixtures/medication-ibuprofen-400-de.json \
+            --profile kbv-basis \
+            --fail-on error \
+            --severity warning \
+            --suppress "constraint:dom-6"
