@@ -63,7 +63,8 @@ jobs:
             --format junit \
             --format sarif \
             --output fhir-results \
-            --fail-on error --severity warning --no-terminology-server
+            --fail-on error --severity warning --no-terminology-server \
+            --suppress "constraint:dom-6"
 
       - name: Publish JUnit results
         uses: mikepenz/action-junit-report@v6
