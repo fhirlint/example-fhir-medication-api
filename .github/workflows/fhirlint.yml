@@ -112,9 +112,6 @@ jobs:
       - name: Start Symfony server
         run: php -S localhost:8000 -t public/ &
 
-      - name: Show fhirlint version
-        run: fhirlint version
-
       - name: Validate live API responses
         run: |
           mkdir -p /tmp/fhir-responses
@@ -127,6 +124,7 @@ jobs:
           curl -sf http://localhost:8000/fhir/Medication/ibuprofen-400-de           -o /tmp/fhir-responses/medication-ibuprofen-400-de.json
           curl -sf http://localhost:8000/fhir/MedicationRequest/request-de-001      -o /tmp/fhir-responses/medication-request-de-001.json
           fhirlint validate /tmp/fhir-responses/ --fail-on error --severity warning --no-terminology-server
+          fhirlint version
 
       - name: Validate German resources against KBV profiles
         run: |
@@ -135,5 +133,4 @@ jobs:
             --ig kbv.basis#1.5.0 \
             --fail-on error \
             --severity warning \
-            --suppress "constraint:dom-6" \
             --no-terminology-server
