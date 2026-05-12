@@ -31,6 +31,50 @@ jobs:
             ghcr.io/fhirlint/fhirlint:latest \
             validate /work --fail-on error --severity warning --no-terminology-server
 
+  reports:
+    name: JUnit & SARIF reports
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install fhirlint
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo fhirlint/fhirlint --pattern "*linux_amd64.tar.gz"
+          tar xzf fhirlint_*_linux_amd64.tar.gz
+          sudo mv fhirlint /usr/local/bin/
+          rm fhirlint_*_linux_amd64.tar.gz
+
+      - name: Validate fixtures (terminal + JUnit + SARIF)
+        run: |
+          fhirlint validate tests/fixtures/ \
+            --format terminal \
+            --format junit --output fhir-results.xml \
+            --format sarif --output fhir-results.sarif \
+            --fail-on error --severity warning --no-terminology-server
+
+      - name: Publish JUnit results
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: fhir-results.xml
+
+      - name: Upload SARIF to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: fhir-results.sarif
+          category: fhir-validation
+
   validate-live:
     name: Validate live API responses
     runs-on: ubuntu-latest
